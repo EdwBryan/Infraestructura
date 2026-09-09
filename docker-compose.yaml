@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  api01:
+    container_name: api01
+    build: ./api
+    ports:
+      - "3000:3000"
+    environment:
+      MESSAGE: ${NOMBRE}
+
+  api02:
+    container_name: api02
+    build: ./api
+    ports:
+      - "3001:3000"
+    environment:
+      MESSAGE: ${NOMBRE}
+
+  api03:
+    container_name: api03
+    build: ./api
+    ports:
+      - "3002:3000"
+    environment:
+      MESSAGE: ${NOMBRE}
+
+  db:
+    container_name: postgres
+    image: postgres:13
+    restart: always
+    shm_size: 128mb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+volumes:
+  postgres_data:
