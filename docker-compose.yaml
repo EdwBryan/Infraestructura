@@ -17,6 +17,14 @@ services:
     environment:
       MESSAGE: ${NOMBRE}
 
+  api03:
+    container_name: api03
+    build: ./api
+    ports:
+      - "3002:3000"
+    environment:
+      MESSAGE: ${NOMBRE}
+
   db:
     container_name: postgres
     image: postgres:13
