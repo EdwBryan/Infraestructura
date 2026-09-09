@@ -16,3 +16,16 @@ services:
       - "3001:3000"
     environment:
       MESSAGE: ${NOMBRE}
+
+  db:
+    container_name: postgres
+    image: postgres:13
+    restart: always
+    shm_size: 128mb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+volumes:
+  postgres_data:
