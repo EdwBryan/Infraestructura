@@ -94,6 +94,8 @@ Conecta el volumen **postgres_data** con la carpeta donde PostgreSQL guarda sus 
 
 ![alt text](./imagenes/image4.png)
 
+La sección de volúmenes no perdera los datos, mientras no se elimine manualmente postgres_data.
+
 ## 7. Usar .gitignore
 Para no dejar publicas las variables de entorno, se creo el archivo .gitignore y se agrego .env
 
@@ -157,3 +159,39 @@ Debe aparecer un volumen similar a: **infraestructura_postgres_data**
 Este comando para y elimina los contenedores, pero conserva el volumen de PostgreSQL(postgres_data).
 
 ```docker compose down```
+
+# Preguntas
+## Tipos de redes en Docker
+
+Docker permite utilizar diferentes tipos de redes(Controladores de red):
+
+- **bridge:** red predeterminada para conectar contenedores dentro del mismo equipo.
+- **host:** el contenedor utiliza directamente la red del equipo anfitrión.
+- **none:** el contenedor no tiene conexión a red.
+- **overlay:** conecta contenedores ubicados en diferentes hosts Docker, normalmente usando Docker Swarm.
+- **macvlan:** asigna al contenedor una dirección MAC propia dentro de la red física.
+
+En este proyecto Docker Compose crea automáticamente una red de tipo bridge. Por esto, los servicios pueden comunicarse entre sí usando sus nombres de servicio, como api01, api02, api03 y db.
+
+## Tipos de volúmenes y montajes en Docker
+
+Son formas de almacenamitno o montaje
+
+Docker permite almacenar información de distintas formas:
+
+- **Volumen nombrado:** Docker administra su ubicación y permite conservar los datos aunque se elimine el contenedor.
+- **Bind mount:** conecta directamente una carpeta o archivo del equipo anfitrión con una ruta dentro del contenedor.
+- **tmpfs:** almacena los datos temporalmente en la memoria RAM; la información se pierde cuando se elimina el contenedor.
+
+Este proyecto utiliza un volumen nombrado llamado `postgres_data`:
+
+```
+volumes:
+  - postgres_data:/var/lib/postgresql/data
+```
+
+La linea del final del volumen permite que Docker lo administre:
+```
+volumes:
+  postgres_data:
+``` 
